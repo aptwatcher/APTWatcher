@@ -95,11 +95,21 @@ else
 fi
 
 if "${PY}" - <<'PYEOF'
-import pathlib, sys
-skip = (".venv", "site", ".git", "__pycache__", ".pytest_cache")
-bad = [str(p) for p in pathlib.Path(".").rglob("*")
-       if p.is_file() and not any(s in p.parts for s in skip)
-       and b"\x00" in p.read_bytes()]
+import subprocess, sys
+# Scan only git-tracked files: untracked caches (.ruff_cache, .mypy_cache),
+# OS cruft (.DS_Store) and the gitignored VM image must never trip this gate.
+out = subprocess.run(["git", "ls-files", "-z"], capture_output=True)
+bad = []
+for raw in out.stdout.split(b"\x00"):
+    if not raw:
+        continue
+    p = raw.decode("utf-8", "surrogateescape")
+    try:
+        with open(p, "rb") as fh:
+            if b"\x00" in fh.read():
+                bad.append(p)
+    except (IsADirectoryError, FileNotFoundError):
+        pass
 if bad:
     print("\n".join(bad)); sys.exit(1)
 PYEOF
@@ -215,7 +225,7 @@ fi
 
 gi_ok=1
 for pat in '.venv' '__pycache__' '*.pyc' 'site/'; do
-    grep -qF "${pat}" .gitignore 2>/dev/null || { gi_ok=0; warn "  .gitignore missing: ${pat}"; }
+    grep -qF "${pat}" .gitignore 2>/dev/null || { gi_ok=0; printf '  .gitignore missing: %s\n' "${pat}"; }
 done
 [ "${gi_ok}" -eq 1 ] && pass ".gitignore excludes venv/pycache/pyc/site" || fail ".gitignore missing required excludes"
 
