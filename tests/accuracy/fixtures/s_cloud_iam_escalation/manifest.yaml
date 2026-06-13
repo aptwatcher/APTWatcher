@@ -1,0 +1,15 @@
+id: s_cloud_iam_escalation
+description: >
+  AWS IAM privilege escalation via CreateAccessKey + AttachUserPolicy.
+  A low-privilege IAM user calls CreateAccessKey on itself, then
+  attaches the AdministratorAccess managed policy, then uses the new
+  key to AssumeRole into a cross-account role. Three findings
+  (access-key creation, policy attachment, cross-account AssumeRole)
+  and two IOCs (source IP, attacker principal) are expected.
+profile: windows-host-triage
+expected_mean_f1: 1.0
+kb_subset_globs: []
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

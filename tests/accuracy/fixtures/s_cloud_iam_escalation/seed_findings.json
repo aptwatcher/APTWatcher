@@ -1,0 +1,32 @@
+[
+  {
+    "finding_id": "f-01",
+    "summary": "CloudTrail shows CreateAccessKey by iam-user-lowpriv at 2026-04-15T12:34:56Z targeting its own userName",
+    "mitre": ["T1098"],
+    "confidence": 0.85,
+    "evidence": [
+      {"source": "cloudtrail:s3://acme-ct-logs/2026/04/15/", "locator": "eventID=a0b1c2d3-4e5f-6789-abcd-ef0123456789 eventName=CreateAccessKey", "tool_call_id": "call-0401"}
+    ],
+    "reasoning": "iam-user-lowpriv invoked CreateAccessKey with userName=iam-user-lowpriv (self-target) from 198.51.100.42"
+  },
+  {
+    "finding_id": "f-02",
+    "summary": "AttachUserPolicy 8s later attaches AdministratorAccess managed policy to iam-user-lowpriv",
+    "mitre": ["T1098.001"],
+    "confidence": 0.80,
+    "evidence": [
+      {"source": "cloudtrail:s3://acme-ct-logs/2026/04/15/", "locator": "eventID=b1c2d3e4-5f60-7890-bcde-f01234567890 eventName=AttachUserPolicy policyArn=arn:aws:iam::aws:policy/AdministratorAccess", "tool_call_id": "call-0402"}
+    ],
+    "reasoning": "AttachUserPolicy at 2026-04-15T12:35:04Z granted AdministratorAccess to the same low-priv principal"
+  },
+  {
+    "finding_id": "f-03",
+    "summary": "Subsequent AssumeRole call with new access key into cross-account role",
+    "mitre": ["T1078.004"],
+    "confidence": 0.60,
+    "evidence": [
+      {"source": "cloudtrail:s3://acme-ct-logs/2026/04/15/", "locator": "eventID=c2d3e4f5-6071-8901-cdef-012345678901 eventName=AssumeRole roleArn=arn:aws:iam::222233334444:role/CrossAcctAdmin", "tool_call_id": "call-0403"}
+    ],
+    "reasoning": "STS AssumeRole at 2026-04-15T12:36:11Z authenticated with the freshly created access key AKIAEXAMPLENOTREAL"
+  }
+]

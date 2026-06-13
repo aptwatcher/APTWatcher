@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets & config
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+config.local.*
+config.json
+
+# Logs (keep structure, ignore content)
+logs/*
+!logs/.gitkeep
+!logs/README.md
+
+# Datasets (large; reference, don't commit)
+datasets/raw/
+datasets/*.db
+datasets/*.E01
+datasets/*.dd
+datasets/*.mem
+datasets/*.vmem
+
+# VM images (huge binaries; provision the SIFT VM separately, never commit)
+vm/
+*.vmdk
+*.ovf
+*.ova
+*.mf
+*.vdi
+*.qcow2
+
+# Scratch
+scratch/
+
+# Autonomous VM-test artifacts (gate logs pulled back from the guest)
+vm-test-logs/
+
+# Demo recordings (large binary)
+demo/recordings/*.mp4
+demo/recordings/*.mov
+
+# Build artifacts
+dist/
+build/
+*.egg
+
+# mkdocs build output
+site/
+
+# Accuracy harness run output
+accuracy-runs/
+
+# Sandbox / VM artifacts
+pytest-cache-files-*/
+.sync_probe_*
+# FUSE leftover placeholders (created when a held-open file is deleted on a FUSE mount)
+.fuse_hidden*
+
+# Internal working files (kept in sibling ../APTWatcher-internal/)
+HANDOFF.md
+TODO.md
+tmp/

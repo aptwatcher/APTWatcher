@@ -1,0 +1,17 @@
+[
+  {
+    "content": "{\"reasoning\": \"seed findings already cover the three-step IAM escalation chain; finalize immediately\", \"finalize\": true, \"steps\": []}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  },
+  {
+    "content": "{\"reasoning\": \"all three seed findings carry CloudTrail event-ID citations; no model-level issues\", \"issues\": []}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  },
+  {
+    "content": "{\"notes\": \"nothing to correct\", \"resolved\": [], \"dropped\": [], \"replan\": false}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  }
+]

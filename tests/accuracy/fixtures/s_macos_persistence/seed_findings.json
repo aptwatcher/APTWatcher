@@ -1,0 +1,22 @@
+[
+  {
+    "finding_id": "f-01",
+    "summary": "LaunchAgent plist drops payload at ~/Library/LaunchAgents/com.acme.updater.plist with RunAtLoad=true",
+    "mitre": ["T1543.001"],
+    "confidence": 0.90,
+    "evidence": [
+      {"source": "~/Library/LaunchAgents/com.acme.updater.plist", "locator": "mtime=2026-04-12T09:22:41Z label=com.acme.updater", "tool_call_id": "call-0301"}
+    ],
+    "reasoning": "Plist sets RunAtLoad=true and KeepAlive=true outside of MDM-managed LaunchAgent set"
+  },
+  {
+    "finding_id": "f-02",
+    "summary": "plist ProgramArguments invokes /bin/bash -c with base64-encoded payload",
+    "mitre": ["T1059.004"],
+    "confidence": 0.75,
+    "evidence": [
+      {"source": "~/Library/LaunchAgents/com.acme.updater.plist", "locator": "xpath=/plist/dict/array key=ProgramArguments", "tool_call_id": "call-0302"}
+    ],
+    "reasoning": "ProgramArguments invokes /bin/bash -c 'echo <b64> | base64 -d | sh' which decodes to a reverse shell"
+  }
+]

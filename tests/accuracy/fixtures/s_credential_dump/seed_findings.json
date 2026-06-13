@@ -1,0 +1,22 @@
+[
+  {
+    "finding_id": "f-lsass-001",
+    "summary": "LSASS process memory access by non-system process",
+    "mitre": ["T1003.001"],
+    "confidence": 0.9,
+    "evidence": [
+      {"source": "Sysmon.evtx", "locator": "event_id=10 pid=4812", "tool_call_id": "call-0101"}
+    ],
+    "reasoning": "rundll32.exe opened lsass.exe with 0x1FFFFF access mask"
+  },
+  {
+    "finding_id": "f-rundll32-001",
+    "summary": "Suspicious rundll32 invocation with comsvcs MiniDump",
+    "mitre": ["T1003.001", "T1218.011"],
+    "confidence": 0.65,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=4688 record=22330", "tool_call_id": "call-0102"}
+    ],
+    "reasoning": "rundll32 comsvcs.dll MiniDump <pid> C:\\Temp\\out.dmp full"
+  }
+]

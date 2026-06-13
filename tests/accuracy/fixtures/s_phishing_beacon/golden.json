@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "title": "Suspicious macro execution from email attachment",
+      "tier": "high",
+      "mitre": ["T1566.001", "T1204.002"]
+    },
+    {
+      "title": "Outbound beacon to known C2 infrastructure",
+      "tier": "high",
+      "mitre": ["T1071.001"]
+    }
+  ],
+  "iocs": [
+    {"value": "203.0.113.42", "type": "ipv4"},
+    {"value": "deadbeef0011223344556677889900aabbccddeeff00112233445566778899aa", "type": "sha256"}
+  ]
+}

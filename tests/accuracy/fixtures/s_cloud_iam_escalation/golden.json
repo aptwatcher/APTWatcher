@@ -1,0 +1,23 @@
+{
+  "findings": [
+    {
+      "title": "CloudTrail shows CreateAccessKey by iam-user-lowpriv at 2026-04-15T12:34:56Z targeting its own userName",
+      "tier": "high",
+      "mitre": ["T1098"]
+    },
+    {
+      "title": "AttachUserPolicy 8s later attaches AdministratorAccess managed policy to iam-user-lowpriv",
+      "tier": "high",
+      "mitre": ["T1098.001"]
+    },
+    {
+      "title": "Subsequent AssumeRole call with new access key into cross-account role",
+      "tier": "medium",
+      "mitre": ["T1078.004"]
+    }
+  ],
+  "iocs": [
+    {"value": "198.51.100.42", "type": "ipv4"},
+    {"value": "lowpriv@aptwatcher.invalid", "type": "email"}
+  ]
+}

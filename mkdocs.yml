@@ -1,0 +1,127 @@
+site_name: APTWatcher DFIR
+site_description: Autonomous defensive digital-forensics & incident-response agent for the SIFT workstation hackathon
+site_author: APTWatcher
+repo_url: https://github.com/aptwatcher/APTWatcher
+repo_name: aptwatcher/APTWatcher
+edit_uri: edit/main/docs/
+docs_dir: docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: README.md
+  - Scope: SCOPE.md
+  - Try it out: TRY-IT-OUT.md
+  - Accuracy: ACCURACY.md
+  - Dataset: DATASET.md
+  - Devpost narrative: DEVPOST.md
+  - Demo:
+      - Walkthrough (captured output): demo/WALKTHROUGH.md
+  - Getting started:
+      - getting-started/README.md
+      - Installation: getting-started/installation.md
+      - Try it out: getting-started/try-it-out.md
+      - Mode A - Direct Agent Extension: getting-started/mode-a-direct-agent.md
+      - Mode B - Custom MCP Server: getting-started/mode-b-mcp-server.md
+      - Mode C - Hybrid: getting-started/mode-c-hybrid.md
+  - Architecture:
+      - architecture/README.md
+      - Deployment modes: architecture/deployment-modes.md
+      - Tier model: architecture/tier-model.md
+      - Shared brain: architecture/shared-brain.md
+      - Mode B - LLM ownership: architecture/mode-b-llm-ownership.md
+      - Evidence integrity: architecture/evidence-integrity.md
+      - Audit logging: architecture/audit-logging.md
+      - Self-correction: architecture/self-correction.md
+  - Use cases:
+      - use-cases/README.md
+      - Windows host triage: use-cases/windows-host-triage.md
+      - Linux host triage: use-cases/linux-host-triage.md
+      - Memory only: use-cases/memory-only.md
+      - Timeline only: use-cases/timeline-only.md
+      - Network artifact: use-cases/network-artifact.md
+      - macOS host triage (experimental): use-cases/osx-host-triage.md
+      - Mobile host triage (experimental): use-cases/mobile-host-triage.md
+  - Scenarios:
+      - scenarios/README.md
+      - S01 - Windows host compromise: scenarios/S01-single-windows-compromise.md
+      - S02 - Multi-host lateral movement: scenarios/S02-multi-host-lateral-movement.md
+      - S03 - Ransomware pre-detonation: scenarios/S03-ransomware-pre-detonation.md
+  - Datasets:
+      - datasets/README.md
+      - Synthetic cases: datasets/synthetic.md
+      - Public sources: datasets/public-sources.md
+  - Integrations:
+      - integrations/README.md
+      - APT Watch: integrations/apt-watch.md
+      - MS Threat Analytics: integrations/ms-threat-analytics.md
+      - GLPI: integrations/glpi.md
+      - cnc_disruptor: integrations/cnc-disruptor.md
+  - Reference:
+      - reference/README.md
+      - MCP tools: reference/mcp-tools.md
+      - SIFT tools: reference/sift-tools.md
+      - MITRE coverage: reference/mitre-coverage.md
+      - Knowledge index: reference/knowledge-index.md
+      - Audit report: reference/audit-report.md
+  - Design notes:
+      - Architecture overview: ARCHITECTURE.md
+      - Tier 0 - SIFT lifecycle: design/tier0-sift-lifecycle.md
+      - Tier 1 - Intel lookup: design/tier1-intel-lookup-pattern.md
+      - Tier gating: design/tier-gating.md
+      - Evidence integrity (design): design/evidence-integrity.md
+      - Audit log format: design/audit-log-format.md
+      - Self-correction gates: design/self-correction-gates.md
+      - Subdomain expert agents: design/subdomain-agents.md
+      - MCP tool schemas: reference/mcp-tool-schemas.md
+      - Offline to online handoff: design/offline-to-online-handoff.md
+      - Analysis output pipeline: design/analysis-output-pipeline.md
+      - Accuracy harness: design/accuracy-harness.md
+      - OpenClaw alternative backend: design/openclaw-alternative.md
+  - Deployment modes (design): design/deployment-modes.md
+  - Policy: POLICY.md

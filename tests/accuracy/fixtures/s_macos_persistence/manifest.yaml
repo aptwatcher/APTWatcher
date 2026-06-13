@@ -1,0 +1,14 @@
+id: s_macos_persistence
+description: >
+  macOS LaunchAgent persistence detection. An adversary drops a
+  user-scope LaunchAgent plist at ~/Library/LaunchAgents/ that sets
+  RunAtLoad=true and invokes /bin/bash -c with a base64-encoded
+  payload. Two findings (plist drop, bash-encoded execution) and one
+  IOC (payload hash) are expected.
+profile: osx-host-triage
+expected_mean_f1: 1.0
+kb_subset_globs: ["knowledge/macos/**/*.md"]
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

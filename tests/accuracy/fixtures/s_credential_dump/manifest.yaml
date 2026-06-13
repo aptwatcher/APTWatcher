@@ -1,0 +1,12 @@
+id: s_credential_dump
+description: >
+  A privileged process dumps LSASS memory on a Windows host; artefacts
+  of the dump file and the offending process command line are recovered.
+  Two findings (LSASS access, suspicious rundll32) and one IOC (dumper
+  hash) are expected.
+profile: windows-host-triage
+kb_subset_globs: []
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

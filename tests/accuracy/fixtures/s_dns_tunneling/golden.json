@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "title": "Sustained DNS TXT queries to beacon.aptwatcher.invalid at 60s jitter \u00b15s with >200 byte responses",
+      "tier": "high",
+      "mitre": ["T1071.004"]
+    },
+    {
+      "title": "High-entropy subdomain labels (mean 4.6) matching DNS tunneling pattern",
+      "tier": "high",
+      "mitre": ["T1572"]
+    }
+  ],
+  "iocs": [
+    {"value": "beacon.aptwatcher.invalid", "type": "domain"},
+    {"value": "203.0.113.99", "type": "ipv4"}
+  ]
+}

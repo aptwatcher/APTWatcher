@@ -1,0 +1,18 @@
+{
+  "findings": [
+    {
+      "title": "Cron persistence dropping reverse-shell payload in /etc/cron.d",
+      "tier": "high",
+      "mitre": ["T1053.003"]
+    },
+    {
+      "title": "SSH authorized_keys backdoor on root account",
+      "tier": "high",
+      "mitre": ["T1098.004"]
+    }
+  ],
+  "iocs": [
+    {"value": "198.51.100.77", "type": "ipv4"},
+    {"value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "type": "sha256"}
+  ]
+}

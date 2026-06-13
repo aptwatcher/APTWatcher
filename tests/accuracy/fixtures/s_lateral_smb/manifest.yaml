@@ -1,0 +1,13 @@
+id: s_lateral_smb
+description: >
+  Lateral movement from a workstation to a remote Windows server via
+  SMB admin$ share, followed by remote scheduled-task creation using
+  at.exe to execute a staged payload. Two findings (admin$ access,
+  remote scheduled task) and two IOCs (source IP, payload hash) are
+  expected.
+profile: network-triage
+kb_subset_globs: ["knowledge/network/**/*.md"]
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

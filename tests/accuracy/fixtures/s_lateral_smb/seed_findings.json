@@ -1,0 +1,22 @@
+[
+  {
+    "finding_id": "f-smb-001",
+    "summary": "SMB admin$ share access from non-admin workstation",
+    "mitre": ["T1021.002"],
+    "confidence": 0.8,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=5140 share_name=\\\\\\\\SRV01\\\\ADMIN$ source_ip=192.0.2.135", "tool_call_id": "call-0401"}
+    ],
+    "reasoning": "Workstation at 192.0.2.135 authenticated to SRV01 admin$ share with no prior admin role assignment"
+  },
+  {
+    "finding_id": "f-at-001",
+    "summary": "Remote scheduled task creation via at.exe",
+    "mitre": ["T1053.002"],
+    "confidence": 0.7,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=4698 task_name=\\\\At1 author=operator", "tool_call_id": "call-0402"}
+    ],
+    "reasoning": "at.exe invocation registered a task on SRV01 that launches the staged payload at next minute boundary"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "finding_id": "f-cron-001",
+    "summary": "Cron persistence dropping reverse-shell payload in /etc/cron.d",
+    "mitre": ["T1053.003"],
+    "confidence": 0.9,
+    "evidence": [
+      {"source": "/etc/cron.d/apt-update", "locator": "line=1 mtime=2026-04-18T03:14:07Z", "tool_call_id": "call-0201"}
+    ],
+    "reasoning": "Cron job '* * * * * root /tmp/.cache/.update.sh' invokes a bash reverse shell to 198.51.100.77:4444"
+  },
+  {
+    "finding_id": "f-sshkey-001",
+    "summary": "SSH authorized_keys backdoor on root account",
+    "mitre": ["T1098.004"],
+    "confidence": 0.85,
+    "evidence": [
+      {"source": "/root/.ssh/authorized_keys", "locator": "line=3 key_comment=operator@workstation.invalid", "tool_call_id": "call-0202"}
+    ],
+    "reasoning": "Extra ssh-ed25519 key appended to authorized_keys outside of change-management window"
+  }
+]

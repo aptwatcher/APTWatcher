@@ -1,0 +1,12 @@
+id: s_phishing_beacon
+description: >
+  Phishing email delivers a macro-laden document to a Windows host. The
+  macro stages a loader, which beacons out to a known-bad C2 IP. Two
+  findings (macro execution, outbound beacon) and two IOCs (loader hash,
+  C2 IP) are expected.
+profile: windows-host-triage
+kb_subset_globs: []
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

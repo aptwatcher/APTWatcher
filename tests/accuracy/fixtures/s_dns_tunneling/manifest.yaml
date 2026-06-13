@@ -1,0 +1,13 @@
+id: s_dns_tunneling
+description: >
+  DNS TXT tunneling C2 detection. Sustained DNS TXT queries to a
+  beacon domain with 60s ±5s jitter, high-entropy subdomain labels,
+  and >200-byte TXT responses. Two findings (TXT beaconing, label
+  entropy) and two IOCs (beacon domain, resolver IP) are expected.
+profile: network-artifact
+expected_mean_f1: 1.0
+kb_subset_globs: ["knowledge/network/**/*.md"]
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

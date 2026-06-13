@@ -1,0 +1,17 @@
+[
+  {
+    "content": "{\"reasoning\": \"seed findings already cover the LaunchAgent persistence and the bash-encoded execution; finalize immediately\", \"finalize\": true, \"steps\": []}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  },
+  {
+    "content": "{\"reasoning\": \"both seed findings carry plist and unified-log citations; no model-level issues\", \"issues\": []}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  },
+  {
+    "content": "{\"notes\": \"nothing to correct\", \"resolved\": [], \"dropped\": [], \"replan\": false}",
+    "stop_reason": "fake",
+    "model": "fake-model"
+  }
+]

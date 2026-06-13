@@ -1,0 +1,14 @@
+id: s_ransomware_pre_encrypt
+description: >
+  Windows host shows classic ransomware staging behaviour minutes
+  before encryption: volume shadow copies are wiped, the filesystem
+  is enumerated recursively, and the adversary issues an LDAP query
+  to locate the backup server. Three findings (VSS deletion,
+  filesystem enumeration, backup-server discovery) and one IOC
+  (dropper hash) are expected.
+profile: windows-host-triage
+kb_subset_globs: ["knowledge/windows/**/*.md"]
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json

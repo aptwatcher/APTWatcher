@@ -1,0 +1,22 @@
+{
+  "findings": [
+    {
+      "title": "Volume shadow copy deletion via vssadmin",
+      "tier": "high",
+      "mitre": ["T1490"]
+    },
+    {
+      "title": "Recursive filesystem enumeration via cmd.exe dir",
+      "tier": "medium",
+      "mitre": ["T1083"]
+    },
+    {
+      "title": "LDAP discovery of backup server hostname",
+      "tier": "medium",
+      "mitre": ["T1087.002"]
+    }
+  ],
+  "iocs": [
+    {"value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "type": "sha256"}
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "finding_id": "f-phish-001",
+    "summary": "Suspicious macro execution from email attachment",
+    "mitre": ["T1566.001", "T1204.002"],
+    "confidence": 0.85,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=4688 record=11221", "tool_call_id": "call-0001"}
+    ],
+    "reasoning": "Outlook.exe -> cmd.exe -> powershell.exe with encoded payload"
+  },
+  {
+    "finding_id": "f-beacon-001",
+    "summary": "Outbound beacon to known C2 infrastructure",
+    "mitre": ["T1071.001"],
+    "confidence": 0.82,
+    "evidence": [
+      {"source": "zeek:conn.log", "locator": "uid=CxyZ1", "tool_call_id": "call-0002"}
+    ],
+    "reasoning": "Periodic HTTPS beacons to 203.0.113.42 every 60s"
+  }
+]

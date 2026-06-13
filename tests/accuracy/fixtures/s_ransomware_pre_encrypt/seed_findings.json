@@ -1,0 +1,32 @@
+[
+  {
+    "finding_id": "f-vss-001",
+    "summary": "Volume shadow copy deletion via vssadmin",
+    "mitre": ["T1490"],
+    "confidence": 0.95,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=4688 record=33112 cmdline=vssadmin delete shadows /all /quiet", "tool_call_id": "call-0301"}
+    ],
+    "reasoning": "vssadmin.exe spawned from a non-admin interactive session with destructive flags"
+  },
+  {
+    "finding_id": "f-dirwalk-001",
+    "summary": "Recursive filesystem enumeration via cmd.exe dir",
+    "mitre": ["T1083"],
+    "confidence": 0.65,
+    "evidence": [
+      {"source": "Security.evtx", "locator": "event_id=4688 record=33118 cmdline=cmd.exe /c dir /s /b C:\\\\", "tool_call_id": "call-0302"}
+    ],
+    "reasoning": "cmd.exe /c dir /s /b writing output to a staging file is a common pre-encryption reconnaissance pattern"
+  },
+  {
+    "finding_id": "f-ldap-001",
+    "summary": "LDAP discovery of backup server hostname",
+    "mitre": ["T1087.002"],
+    "confidence": 0.55,
+    "evidence": [
+      {"source": "zeek:ldap.log", "locator": "uid=CldapBkp1 query=(cn=backup*)", "tool_call_id": "call-0303"}
+    ],
+    "reasoning": "LDAP query filtering on cn=backup* from a non-admin host suggests targeted backup-infrastructure discovery"
+  }
+]

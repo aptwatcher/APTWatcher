@@ -1,0 +1,17 @@
+{
+  "findings": [
+    {
+      "title": "LaunchAgent plist drops payload at ~/Library/LaunchAgents/com.acme.updater.plist with RunAtLoad=true",
+      "tier": "high",
+      "mitre": ["T1543.001"]
+    },
+    {
+      "title": "plist ProgramArguments invokes /bin/bash -c with base64-encoded payload",
+      "tier": "high",
+      "mitre": ["T1059.004"]
+    }
+  ],
+  "iocs": [
+    {"value": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "type": "sha256"}
+  ]
+}

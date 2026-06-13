@@ -1,0 +1,17 @@
+{
+  "findings": [
+    {
+      "title": "LSASS process memory access by non-system process",
+      "tier": "high",
+      "mitre": ["T1003.001"]
+    },
+    {
+      "title": "Suspicious rundll32 invocation with comsvcs MiniDump",
+      "tier": "medium",
+      "mitre": ["T1003.001", "T1218.011"]
+    }
+  ],
+  "iocs": [
+    {"value": "0badc0de00112233445566778899aabbccddeeff00112233445566778899aabb", "type": "sha256"}
+  ]
+}

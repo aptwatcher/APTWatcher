@@ -1,0 +1,13 @@
+id: s_linux_persistence
+description: >
+  Linux host is backdoored post-compromise. An adversary drops a cron
+  job under /etc/cron.d/ that runs a reverse-shell payload and also
+  appends an attacker-controlled key to /root/.ssh/authorized_keys for
+  a second persistence channel. Two findings (cron persistence, SSH
+  key backdoor) and two IOCs (payload hash, callback IP) are expected.
+profile: linux-host-triage
+kb_subset_globs: ["knowledge/linux/**/*.md"]
+transcript_path: transcript.json
+golden_path: golden.json
+seed_findings_path: seed_findings.json
+seed_iocs_path: seed_iocs.json
