@@ -101,6 +101,18 @@ Directive, role allow-lists, and failure-mode playbook — is
   (signed offline-to-online bundle handoff; one-shot E01 triage to a signed
   IncidentBundle on a 14.5-minute budget).
 
+## Submission docs
+
+For hackathon judges, the four submission documents in one place:
+
+- [`docs/TRY-IT-OUT.md`](docs/TRY-IT-OUT.md) — step-by-step local run against the
+  shipped fixtures (no live deployment by design: read-only, offline).
+- [`docs/DATASET.md`](docs/DATASET.md) — evidence dataset inventory, provenance,
+  and clean-room policy.
+- [`docs/ACCURACY.md`](docs/ACCURACY.md) — accuracy methodology, baseline, and
+  honest limitations.
+- [`docs/DEVPOST.md`](docs/DEVPOST.md) — the project narrative.
+
 ## Guardrails
 
 - **Read-only by default.** All 42 tier-0 forensic tools never modify
