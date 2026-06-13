@@ -408,9 +408,80 @@ like — is documented in full in [`ACCURACY.md`](ACCURACY.md), and the
 implementation-facing complement lives at
 [`design/accuracy-harness.md`](design/accuracy-harness.md).
 
+## Happy path 4: Run against the FIND EVIL provided dataset (on a SIFT workstation)
+
+The three paths above need no forensic tools. This one is the real thing:
+APTWatcher driving the SIFT toolchain over the hackathon's official
+"Example Compromised System Data". It requires a SIFT workstation
+(x86_64) with the toolchain provisioned — the bare recording box
+deliberately has none, which is exactly why `preflight` refuses there.
+
+### 1. Provision a SIFT workstation
+
+Download the SIFT Workstation, then provision the canonical toolchain:
+
+```bash
+bash scripts/prepare-vm.sh          # installs volatility3, plaso, sleuthkit, yara, hayabusa, ...
+source .venv/bin/activate
+```
+
+On an Apple Silicon Mac, run SIFT on an **x86_64 host** (a small cloud
+Linux instance is fastest and avoids slow emulation) rather than
+emulating locally. The autonomous in-VM path is in
+[`RUNBOOK.md`](https://github.com/aptwatcher/APTWatcher/blob/main/RUNBOOK.md) (Phase 1b).
+
+### 2. Stage the evidence (read-only)
+
+Download the "Example Compromised System Data" from the hackathon
+resources and extract it. Note the path(s) to the disk / memory / log
+artifacts. Per the Prime Directive, the evidence tree stays read-only:
+point APTWatcher at it, never copy derivatives next to it.
+
+### 3. Preflight — now it comes back green
+
+```bash
+aptwatcher preflight --profile windows-host-triage -e /path/to/evidence
+```
+
+On a provisioned SIFT box this returns OK with every required tool
+found — the same command that exits 1 on the bare recording box. Pick
+the profile that matches the evidence (`windows-host-triage`,
+`memory-only`, `timeline-only`, ...); `aptwatcher profiles` lists them.
+
+### 4. Run the triage loop over the real evidence
+
+Key-free structural pass (resolves and prints the plan, no LLM):
+
+```bash
+aptwatcher run --incident-id INC-FINDEVIL-001 --profile windows-host-triage \
+    -e /path/to/evidence --backend null --dry-run
+```
+
+Full agentic run (plan → execute → verify → self-correct with a live model):
+
+```bash
+export ANTHROPIC_API_KEY=...        # set in your shell only; never commit it
+aptwatcher run --incident-id INC-FINDEVIL-001 --profile windows-host-triage \
+    -e /path/to/evidence --backend anthropic --model <model-id>
+```
+
+It prints the findings count and the path to the signed, append-only
+audit log.
+
+### 5. Inspect the judge-readable timeline
+
+```bash
+aptwatcher audit-render --incident-id INC-FINDEVIL-001
+```
+
+Every plan/execute/verify/self-correct step, with tool identities,
+token usage, and per-step confidence. To carry the conclusions across
+an air gap as a signed bundle, feed the findings into the analyze +
+publish flow from Happy path 2.
+
 ## Where to look next
 
-You have now seen the three happy paths. To go deeper:
+You have now seen the happy paths above. To go deeper:
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) is the canonical entry point for
   the tier model, the three deployment modes (Direct Agent Extension,
