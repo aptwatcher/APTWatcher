@@ -433,14 +433,28 @@ emulating locally. The autonomous in-VM path is in
 ### 2. Stage the evidence (read-only)
 
 Download the "Example Compromised System Data" from the hackathon
-resources and extract it. Note the path(s) to the disk / memory / log
-artifacts. Per the Prime Directive, the evidence tree stays read-only:
+resources. The standard case is **"The Fred Rocba Case"** (Stark Research
+Labs intrusion and IP theft) — a Windows host with two artifacts:
+
+| Artifact | Size | Kind |
+|---|---|---|
+| `Rocba-Memory.raw` | ~18 GB | raw memory image |
+| `rocba-cdrive.e01` | ~23 GB | EnCase disk image |
+
+A disk-plus-memory Windows host maps to the `windows-host-triage`
+profile. Per the Prime Directive, the evidence tree stays read-only:
 point APTWatcher at it, never copy derivatives next to it.
+
+> **Size matters.** ~41 GB total. Run this on a real or cloud **x86_64**
+> SIFT box where the toolchain runs natively — emulating x86 on Apple
+> Silicon makes Volatility/Plaso over a multi-GB image impractically slow.
+> `preflight` itself only hashes the files (no tool execution), so it is
+> the cheapest honest "green on the provided evidence" capture.
 
 ### 3. Preflight — now it comes back green
 
 ```bash
-aptwatcher preflight --profile windows-host-triage -e /path/to/evidence
+aptwatcher preflight --profile windows-host-triage -e Rocba-Memory.raw -e rocba-cdrive.e01
 ```
 
 On a provisioned SIFT box this returns OK with every required tool
@@ -453,16 +467,16 @@ the profile that matches the evidence (`windows-host-triage`,
 Key-free structural pass (resolves and prints the plan, no LLM):
 
 ```bash
-aptwatcher run --incident-id INC-FINDEVIL-001 --profile windows-host-triage \
-    -e /path/to/evidence --backend null --dry-run
+aptwatcher run --incident-id INC-ROCBA-001 --profile windows-host-triage \
+    -e Rocba-Memory.raw -e rocba-cdrive.e01 --backend null --dry-run
 ```
 
 Full agentic run (plan → execute → verify → self-correct with a live model):
 
 ```bash
 export ANTHROPIC_API_KEY=...        # set in your shell only; never commit it
-aptwatcher run --incident-id INC-FINDEVIL-001 --profile windows-host-triage \
-    -e /path/to/evidence --backend anthropic --model <model-id>
+aptwatcher run --incident-id INC-ROCBA-001 --profile windows-host-triage \
+    -e Rocba-Memory.raw -e rocba-cdrive.e01 --backend anthropic --model <model-id>
 ```
 
 It prints the findings count and the path to the signed, append-only
@@ -471,7 +485,7 @@ audit log.
 ### 5. Inspect the judge-readable timeline
 
 ```bash
-aptwatcher audit-render --incident-id INC-FINDEVIL-001
+aptwatcher audit-render --incident-id INC-ROCBA-001
 ```
 
 Every plan/execute/verify/self-correct step, with tool identities,
