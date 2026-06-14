@@ -8,7 +8,7 @@
 
 > We just shipped APTWatcher to the FIND EVIL! hackathon: an autonomous
 > defensive IR agent for the SIFT workstation. Read-only by default,
-> Ed25519-signed incident bundles, 51 MCP tools, 742 tests.
+> Ed25519-signed incident bundles, 51 MCP tools, 746 tests.
 > Code (MIT): [REPO_URL] — demo: [VIDEO_URL]
 
 ## LinkedIn / blog post (longer form)
@@ -30,7 +30,7 @@ Highlights:
   act on — tamper detection included.
 - 51 MCP tools over 10 SIFT forensic suites, 3 deployment modes, a
   clean-room knowledge base, and an accuracy harness with golden fixtures.
-- 742 passing tests, lint- and type-clean, MIT licensed.
+- 746 passing tests, lint- and type-clean, MIT licensed.
 
 Try it: [REPO_URL] (one-line install) — 5-minute demo: [VIDEO_URL]
 Devpost: [DEVPOST_URL]

@@ -58,7 +58,7 @@ bundle, stub publication, self-scoring — is in
 | Knowledge base entries | 32 | clean-room authored, cited in findings |
 | Accuracy fixtures | 8 | mean F1 1.000 on seed fixtures — this validates the plumbing, not field accuracy; see [`docs/ACCURACY.md`](docs/ACCURACY.md) |
 | Publication adapters | 5 | Netcraft, MISP, GLPI, TAXII 2.1, stub — all dry-run by default |
-| Tests | 742 passing | 1 skipped; ruff clean; mypy strict clean on `src/core`; Python 3.11+ |
+| Tests | 746 passing | 1 skipped; ruff clean; mypy strict clean on `src/core`; Python 3.11+ |
 
 ## Architecture
 

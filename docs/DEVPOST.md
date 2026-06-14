@@ -298,7 +298,7 @@ sandbox runs Python 3.10. We took the one-directional hit on purpose
 rather than reach back to `datetime.timezone.utc` everywhere, because
 future maintenance reads cleaner with the newer form and the
 hackathon deadline is firmly inside the 3.11 era. The full suite —
-742 passing, one skipped — runs on a Python 3.11+ host at the end of
+746 passing, one skipped — runs on a Python 3.11+ host at the end of
 every session, and we developed a confidence habit around
 AST-parse-plus-`mkdocs build --strict` for the in-session iterations.
 The trade is documented in every handoff so the next session starts
@@ -327,7 +327,7 @@ output contract; every tool is reachable from all three deployment
 modes through the same core calls. Fifty-one is not a number we
 picked as a target; it is what emerged from saying yes to every tool
 that cleared the bar of "we can wrap this with a typed runner and an
-allow-list." Behind the surface sit 742 passing tests, zero ruff
+allow-list." Behind the surface sit 746 passing tests, zero ruff
 violations, and a mypy-strict-clean `src/core`.
 
 We built the offline-to-online flow end to end with a cryptographic
