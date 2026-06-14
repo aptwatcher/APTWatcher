@@ -51,6 +51,7 @@ References:
 
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 
@@ -111,11 +112,16 @@ def _resolve_binary(name: str | None = None) -> Path:
     Find the RegRipper binary on PATH.
 
     SIFT Workstation installs the Perl script as ``rip.pl``; some
-    packaged builds also ship a ``rip`` wrapper. The Tier 0 wrapper
-    tries ``rip.pl`` first and falls back to ``rip`` so both layouts
-    work. When ``name`` is supplied we probe that exact name only.
+    packaged builds also ship ``regripper`` or a ``rip`` wrapper. The
+    Tier 0 wrapper honors an ``APTW_REGRIPPER_BIN`` override, then tries
+    ``rip.pl``, ``regripper``, and ``rip`` so all layouts work. When
+    ``name`` is supplied we probe that exact name only.
     """
-    candidates = [name] if name else ["rip.pl", "rip"]
+    if name:
+        candidates = [name]
+    else:
+        override = os.environ.get("APTW_REGRIPPER_BIN")
+        candidates = [override] if override else ["rip.pl", "regripper", "rip"]
     for candidate in candidates:
         if candidate is None:
             continue

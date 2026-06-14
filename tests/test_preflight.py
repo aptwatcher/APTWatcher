@@ -76,3 +76,57 @@ def test_hash_and_manifest_roundtrip(tmp_path: Path) -> None:
     assert manifest[0].sha256 == digest
     assert manifest[0].kind == "pcap"
     assert manifest[0].size_bytes == len(b"PCAPDATA")
+
+
+def test_probe_tool_resolves_regripper_alias() -> None:
+    # SIFT ships RegRipper as rip.pl; the canonical name is absent on PATH.
+    def fake_which(cmd: str) -> str | None:
+        return "/usr/local/bin/rip.pl" if cmd == "rip.pl" else None
+
+    with (
+        patch("core.preflight.shutil.which", side_effect=fake_which),
+        patch("core.preflight.subprocess.run", side_effect=OSError),
+    ):
+        probed = probe_tool("RegRipper")
+    assert probed is not None
+    assert probed.name == "RegRipper"
+    assert probed.path == "/usr/local/bin/rip.pl"
+
+
+def test_probe_tool_resolves_volatility3_venv_path() -> None:
+    # SIFT installs Volatility 3 in a venv; bare names absent, venv path present.
+    def fake_which(cmd: str) -> str | None:
+        return "/opt/volatility3/bin/vol" if cmd == "/opt/volatility3/bin/vol" else None
+
+    with (
+        patch("core.preflight.shutil.which", side_effect=fake_which),
+        patch("core.preflight.subprocess.run", side_effect=OSError),
+    ):
+        probed = probe_tool("volatility3")
+    assert probed is not None
+    assert probed.path == "/opt/volatility3/bin/vol"
+
+
+def test_probe_tool_never_resolves_bare_vol_for_volatility3() -> None:
+    # A bare `vol` (Volatility 2 on SIFT) must NOT satisfy a volatility3 probe.
+    def fake_which(cmd: str) -> str | None:
+        return "/usr/local/bin/vol" if cmd == "vol" else None
+
+    with patch("core.preflight.shutil.which", side_effect=fake_which):
+        assert probe_tool("volatility3") is None
+
+
+def test_probe_tool_honors_env_override(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # APTW_<NAME>_BIN points the probe at an explicit binary.
+    monkeypatch.setenv("APTW_REGRIPPER_BIN", "/custom/path/myrip")
+
+    def fake_which(cmd: str) -> str | None:
+        return cmd if cmd == "/custom/path/myrip" else None
+
+    with (
+        patch("core.preflight.shutil.which", side_effect=fake_which),
+        patch("core.preflight.subprocess.run", side_effect=OSError),
+    ):
+        probed = probe_tool("RegRipper")
+    assert probed is not None
+    assert probed.path == "/custom/path/myrip"

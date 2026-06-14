@@ -18,6 +18,7 @@ References:
 
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 
@@ -46,8 +47,22 @@ class VolatilityPluginError(ValueError):
 
 
 def _resolve_vol_binary() -> Path:
-    """Find vol3. SANS SIFT ships it as `vol.py` or `vol3`."""
-    for candidate in ("vol3", "vol.py", "volatility3"):
+    """Find Volatility 3.
+
+    Honors an `APTW_VOLATILITY3_BIN` override, then tries the SIFT names and
+    the venv path (`/opt/volatility3/bin/vol`). A bare `vol` is deliberately
+    never resolved: on SIFT that is Volatility 2 and would crash on a modern
+    Windows dump (CLAUDE.md tool-invocation contract).
+    """
+    override = os.environ.get("APTW_VOLATILITY3_BIN")
+    candidates = (
+        (override,)
+        if override
+        else ("vol3", "vol.py", "volatility3", "/opt/volatility3/bin/vol")
+    )
+    for candidate in candidates:
+        if not candidate:
+            continue
         found = shutil.which(candidate)
         if found:
             return Path(found)

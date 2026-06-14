@@ -14,6 +14,7 @@ References:
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import shutil
 import subprocess  # nosec: B404 — we invoke known tools with explicit argv
@@ -90,19 +91,60 @@ def _version_meets_minimum(got: str | None, minimum: str) -> bool:
     return got_parts >= min_parts
 
 
+# Canonical profile tool name -> ordered executable candidates to resolve on
+# PATH. This bridges the gap between the name a profile declares and the name
+# the SIFT Workstation actually installs: RegRipper ships as `rip.pl`, and
+# Volatility 3 lives in a venv at /opt/volatility3/bin/vol. Ambiguous names are
+# deliberately excluded — a bare `vol` on SIFT is Volatility 2 and must never
+# satisfy a `volatility3` probe (see CLAUDE.md, tool-invocation contract).
+_TOOL_ALIASES: dict[str, tuple[str, ...]] = {
+    "volatility3": ("volatility3", "vol3", "vol.py", "/opt/volatility3/bin/vol"),
+    "RegRipper": ("RegRipper", "rip.pl", "regripper", "rip"),
+}
+
+
+def _env_override(name: str) -> str | None:
+    """An explicit operator override via `APTW_<NAME>_BIN` (path or PATH name)."""
+    key = "APTW_" + re.sub(r"[^A-Za-z0-9]", "_", name).upper() + "_BIN"
+    return os.environ.get(key)
+
+
+def _resolve_tool_path(name: str) -> Path | None:
+    """Resolve a canonical tool name to an executable path, or None.
+
+    Order: an `APTW_<NAME>_BIN` override, then the tool's alias candidates,
+    then the canonical name itself. `shutil.which` handles both bare names
+    (PATH search) and absolute paths (executable check).
+    """
+    override = _env_override(name)
+    candidates: tuple[str, ...] = (
+        (override,) if override else _TOOL_ALIASES.get(name, (name,))
+    )
+    for candidate in candidates:
+        if not candidate:
+            continue
+        found = shutil.which(candidate)
+        if found:
+            return Path(found)
+    return None
+
+
 def probe_tool(name: str) -> ToolVersion | None:
-    """Locate one tool on PATH and extract its version. None if not found."""
-    path_str = shutil.which(name)
-    if path_str is None:
+    """Locate one tool and extract its version. None if not found.
+
+    Resolution honors an `APTW_<NAME>_BIN` env override and the SIFT alias
+    table (`_TOOL_ALIASES`) before falling back to the canonical name.
+    """
+    resolved = _resolve_tool_path(name)
+    if resolved is None:
         return None
-    path = Path(path_str)
-    version = _default_extractor(path)
+    version = _default_extractor(resolved)
     minimum = _MIN_VERSIONS.get(name)
     meets_min = True if minimum is None else _version_meets_minimum(version, minimum)
     return ToolVersion(
         name=name,
         version=version,
-        path=str(path),
+        path=str(resolved),
         meets_minimum=meets_min,
     )
 
